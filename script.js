@@ -1,3 +1,6 @@
+
+//====================___№1__=========================//
+
 //You are the "computer expert" of a local Athletic Association (C.A.A.). Many teams of runners come to compete. Each time you get a string of all race results of every team who has run. For example here is a string showing the individual results of a team of 5 runners:
 
 //"01|15|59, 1|47|6, 01|17|20, 1|32|34, 2|3|17"
@@ -78,3 +81,70 @@ function stat(strg) {
 }
 
 stat('01|15|59, 1|47|16, 01|17|20, 1|32|34, 2|17|17');
+
+
+
+//====================___№2__=========================//
+
+
+//Scheduling is how the processor decides which jobs (processes) get to use the processor and for how long. This can cause a lot of problems. Like a really long process taking the entire CPU and freezing all the other processes. One solution is Round-Robin, which today you will be implementing.
+
+//Round-Robin works by queuing jobs in a First In First Out fashion, but the processes are only given a short slice of time. If a processes is not finished in that time slice, it yields the proccessor and goes to the back of the queue.
+
+//For this Kata you will be implementing the
+
+//   function roundRobin(jobs, slice, index)
+//It takes in:
+
+//1. "jobs" a non-empty positive integer array. It represents the queue and clock-cycles(cc) remaining till the job[i] is finished.
+
+//2. "slice" a positive integer. It is the amount of clock-cycles that each job is given till the job yields to the next job in the queue.
+
+//3. "index" a positive integer. Which is the index of the job we're interested in.
+//roundRobin returns:
+
+//1. the number of cc till the job at index is finished.
+//Here's an example:
+
+//roundRobin([10,20,1], 5, 0) 
+//at 0cc [10,20,1] jobs[0] starts
+//after 5cc [5,20,1] jobs[0] yields, jobs[1] starts
+//after 10cc [5,15,1] jobs[1] yields, jobs[2] starts
+//after 11cc [5,15,0] jobs[2] finishes, jobs[0] starts
+//after 16cc [0,15,0] jobs[0] finishes
+//so:
+
+//roundRobin([10,20,1], 5, 0) == 16
+//**You can assume that the processor can switch jobs between cc so it does not add to the total time.
+
+
+//=============SOLUTION=============
+
+
+function roundRobin(jobs, slice, index) {
+  let sum = 0;
+
+  while (jobs[index]) {
+    for (i = 0; i < jobs.length; i++) {
+      if (jobs[i] < slice) {
+        sum += jobs[i];
+        jobs[i] = 0;
+      } else {
+        jobs[i] -= slice;
+        sum += slice;
+      }
+
+      if (jobs[index] === 0) {
+        console.log(sum);
+        return sum;
+      }
+    }
+  }
+}
+
+roundRobin([19, 5, 10, 6, 1], 8, 4);
+
+
+
+
+
